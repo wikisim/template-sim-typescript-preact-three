@@ -3,6 +3,8 @@ import * as THREE from "three"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js"
 
 import "./DemoSim.css"
+import glowFragmentShader from "./shaders/glow/fragment.glsl"
+import glowVertexShader from "./shaders/glow/vertex.glsl"
 
 
 export const DemoSim = () =>
@@ -38,10 +40,24 @@ export const DemoSim = () =>
         controls.enablePan = true
 
         // Create blue sphere
-        const geometry_blue = new THREE.SphereGeometry(1, 32, 32)
+        const geometry_blue = new THREE.SphereGeometry(1, 64, 64)
         const material_blue = new THREE.MeshLambertMaterial({ color: 0x6666ff })
         const sphere_blue = new THREE.Mesh(geometry_blue, material_blue)
         scene.add(sphere_blue)
+
+        // Create blue sphere glow
+        const material_blue_glow = new THREE.ShaderMaterial({
+            side: THREE.BackSide, // Render the glow on the inside
+            transparent: true,
+            vertexShader: glowVertexShader,
+            fragmentShader: glowFragmentShader,
+            uniforms: {
+                uGlowColour: new THREE.Uniform(new THREE.Color(0xaaccff)),
+            },
+        })
+        const sphere_blue_glow = new THREE.Mesh(geometry_blue, material_blue_glow)
+        sphere_blue_glow.scale.set(1.15, 1.15, 1.15) // Slightly larger to create a glow effect
+        scene.add(sphere_blue_glow)
 
         // Create yellow sphere
         const geometry_yellow = new THREE.SphereGeometry(0.2, 32, 32)
@@ -69,8 +85,6 @@ export const DemoSim = () =>
             const rotation_speed = 0.001
             sphere_yellow.position.x = 2 * Math.cos(Date.now() * -rotation_speed)
             sphere_yellow.position.z = 2 * Math.sin(Date.now() * -rotation_speed)
-            // sphere_yellow.position.x = 2
-            // sphere_yellow.position.z = 2
             sphere_yellow.position.y = -1.5 * Math.cos(Date.now() * rotation_speed)
 
             renderer.render(scene, camera)
