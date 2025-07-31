@@ -1,5 +1,5 @@
 import preact from "@preact/preset-vite"
-// import { resolve } from "path"
+import { resolve } from "path"
 import { defineConfig } from "vite"
 import glsl from "vite-plugin-glsl"
 import restart from "vite-plugin-restart"
@@ -29,7 +29,7 @@ export default defineConfig({
     ],
     resolve: {
         alias: {
-            // "core": resolve(__dirname, "../lib/core/src"),
+            "core": resolve(__dirname, "./lib/core/src"),
         }
     },
 })
