@@ -5,6 +5,7 @@
 
     git clone git@github.com:wikisim/template-sim-typescript-preact-three.git your-new-sim-name --recursive
     cd your-new-sim-name
+    git remote rm origin
     pnpm install
     pnpm run dev
 
