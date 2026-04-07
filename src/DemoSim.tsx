@@ -10,6 +10,7 @@ import { get_supabase } from "core/supabase/browser"
 import "./DemoSim.css"
 import glowFragmentShader from "./shaders/glow/fragment.glsl"
 import glowVertexShader from "./shaders/glow/vertex.glsl"
+import { asset_url } from "./utils/asset_url"
 
 
 export const DemoSim = () =>
@@ -136,6 +137,12 @@ export const DemoSim = () =>
             <h3>Demo Simulation</h3>
             <LoadData />
         </div>
+
+        <img
+            style={{ position: "absolute", top: 10, right: 10 }}
+            src={asset_url("./assets/logo.svg")}
+            title="This demos importing an asset using the asset_url function, which ensures the correct path is used in both development and production environments."
+        />
     </>
 }
 
