@@ -12,5 +12,12 @@
  */
 export function asset_url(path: string): string
 {
+    // Remove leading slash if present, so that the path is corrected to be
+    // relative to document.baseURI rather than treated as an absolute URL.
+    // i.e. if you use asset_url("/assets/foo.png") when running the interactable
+    // site at https://wikisim.org/wiki/1272 then the resulting URL will not be
+    // https://wikisim.org/wiki/1272/assets/foo.png as intended but instead will
+    // be https://wikisim.org/assets/foo.png which is incorrect and will 404.
+    if (path.startsWith("/")) path = path.slice(1)
     return new URL(path, document.baseURI).href
 }
