@@ -18,7 +18,16 @@ export default defineConfig({
     {
         outDir: "../dist", // Output in the dist/ folder
         emptyOutDir: true, // Empty the folder first
-        sourcemap: true // Add sourcemap
+        sourcemap: true, // Add sourcemap
+        rollupOptions:
+        {
+            output:
+            {
+                manualChunks(id) {
+                    if (id.includes("node_modules")) return "vendor"
+                },
+            },
+        },
     },
     plugins: [
         preact(),
